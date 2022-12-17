@@ -31,7 +31,7 @@ class DigitalPrayerWheel:
         self.max_repeat_rate = int(psutil.virtual_memory().available / (sys.getsizeof(self.string) * 2))
 
         # Create the UI elements for the second screen.
-        self.repeat_rate_label = tk.Label(self.window, text="Repetition rate (Hz)\n(empty: estimated maximum)")
+        self.repeat_rate_label = tk.Label(self.window, text="Target repetition rate (Hz)\n(empty: estimated maximum)")
         self.repeat_rate_edit = tk.Entry(self.window, textvariable=self.max_repeat_rate)
         self.start_button = tk.Button(self.window, text="Start", command=self.start)
         self.elapsed_time_label = tk.Label(self.window, text="Elapsed time: 0 hours 0 minutes 0 seconds")
@@ -85,22 +85,18 @@ class DigitalPrayerWheel:
         # Get the size of the repeated string in memory.
         repeated_size = sys.getsizeof(repeated_string)
 
-        # Print a warning if the size of the repeated string is smaller than the original string.
-        if repeated_size < size:
-            # Show the warning message.
-            messagebox.showwarning("Warning", "The size of the repeated string is smaller than the original string. This may be due to compression or optimization.")
+        # Calculate the expected size of the repeated string based on the repetition rate and the size of the original string.
+        expected_size = size * self.repeat_rate
 
-            # Update the elapsed time label.
-            self.elapsed_time_label.config(text="Elapsed time: %d hours %d minutes %d seconds\nString: %s\nRepetition rate: ~%d Hz" % (hours, minutes, seconds, self.string, self.repeat_rate))
+        # Calculate the actual repetition rate in Hz based on the actual and expected sizes.
+        actual_repeat_rate = repeated_size / size
 
-            # Schedule the repeat method to be called again after a delay.
-            self.window.after(200, self.repeat)
-        else:
-            # Update the elapsed time label.
-            self.elapsed_time_label.config(text="Elapsed time: %d hours %d minutes %d seconds\nString: %s\nRepetition rate: ~%d Hz" % (hours, minutes, seconds, self.string, self.repeat_rate))
+        # Update the elapsed time label to display the elapsed time and the actual repetition rate.
+        self.elapsed_time_label.config(text=f"Elapsed time: {int(hours)} hours {int(minutes)} minutes {int(seconds)} seconds\nActual repetition rate: {actual_repeat_rate:.0f} Hz")
 
-            # Schedule the next repetition.
-            self.window.after(200, self.repeat)
+        # Call the repeat method again after 1 second.
+        self.window.after(1000, self.repeat)
+
 
 # Create an instance of the DigitalPrayerWheel class and start the main loop.
 DigitalPrayerWheel()
