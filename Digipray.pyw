@@ -1,7 +1,6 @@
 import sys
 import time
 import tkinter as tk
-import tkinter.messagebox as messagebox
 import psutil
 
 class DigitalPrayerWheel:
