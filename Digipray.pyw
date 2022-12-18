@@ -91,8 +91,8 @@ class DigitalPrayerWheel:
         # Calculate the actual repetition rate in Hz based on the actual and expected sizes.
         actual_repeat_rate = repeated_size / size
 
-        # Update the elapsed time label to display the elapsed time and the actual repetition rate.
-        self.elapsed_time_label.config(text=f"Elapsed time: {int(hours)} hours {int(minutes)} minutes {int(seconds)} seconds\nActual repetition rate: {actual_repeat_rate:.0f} Hz")
+        # Update the elapsed time label to display the elapsed time, the string and the actual repetition rate.
+        self.elapsed_time_label.config(text=f"Elapsed time: {int(hours)} hours {int(minutes)} minutes {int(seconds)} seconds\nActual repetition rate: {actual_repeat_rate:.0f} Hz\nString: {str(self.string)}")
 
         # Call the repeat method again after 1 second.
         self.window.after(1000, self.repeat)
