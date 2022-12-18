@@ -95,7 +95,7 @@ class DigitalPrayerWheel:
         self.elapsed_time_label.config(text=f"Elapsed time: {int(hours)} hours {int(minutes)} minutes {int(seconds)} seconds\nActual repetition rate: {actual_repeat_rate:.0f} Hz\nString: {str(self.string)}")
 
         # Call the repeat method again after 1 second.
-        self.window.after(1000, self.repeat)
+        self.window.after(200, self.repeat)
 
 
 # Create an instance of the DigitalPrayerWheel class and start the main loop.
